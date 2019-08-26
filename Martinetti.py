@@ -35,17 +35,17 @@ class Board:
             tracker = self.boardPos
             if( num1 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num2 == self.boardList[self.boardPos]) :
+            elif( num2 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num3 == self.boardList[self.boardPos]) :
+            elif( num3 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num1 + num2 == self.boardList[self.boardPos]) :
+            elif( num1 + num2 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num1 + num3 == self.boardList[self.boardPos]) :
+            elif( num1 + num3 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num2 + num3 == self.boardList[self.boardPos]) :
+            elif( num2 + num3 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
-            else if( num1 + num2 + num3 == self.boardList[self.boardPos]) :
+            elif( num1 + num2 + num3 == self.boardList[self.boardPos]) :
                 self.boardPos += 1
             if( self.boardPos == 11 or self.boardPos == 23) :
                 break
@@ -54,11 +54,11 @@ class Board:
 class Player:
 
     def __init__( self, playerName ) :
-        gameBoard = Board()
+        self.gameBoard = Board()
         self.name = playerName
 
     def __str__( self ) :
-        return playerName
+        return self.name
 
     def hasWon( self ) :
         if( self.gameBoard.boardPos == 23):
@@ -67,4 +67,29 @@ class Player:
         
             
 class Game:
-    
+
+    def __init__ ( self, numPlayers) :
+        self.players = []
+        for i in range(1, numPlayers + 1) :
+            self.players.append(Player(input("What will player " + str(i) + "'s name be? ")))   
+
+    def play( self) :
+        die1 = Die()
+        die2 = Die()
+        die3 = Die()
+        self.ended = False
+        print ("The game has begun!")
+        while( self.ended == False) :
+            for player in self.players :
+                print ("It's " + player.__str__() + "'s turn")
+                die1.roll()
+                die2.roll()
+                die3.roll()
+                print (player.__str__() + " rolled a " + str(die1.getNum()) + ", " + str(die2.getNum()) + ", and " + str(die3.getNum()))
+                player.gameBoard.moveUp(die1.getNum(), die2.getNum(), die3.getNum())
+                print (player.__str__() + " is on space " + str(player.gameBoard.boardPos +1))
+                if player.hasWon() :
+                    print (player.__str__() + " has won!")
+                    self.ended = True
+                    break
+        
