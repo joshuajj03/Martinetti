@@ -74,6 +74,7 @@ class Game:
             self.players.append(Player(input("What will player " + str(i) + "'s name be? ")))   
 
     def play( self) :
+        space = -1
         die1 = Die()
         die2 = Die()
         die3 = Die()
@@ -82,12 +83,14 @@ class Game:
         while( self.ended == False) :
             for player in self.players :
                 print ("It's " + player.__str__() + "'s turn")
+                space = player.gameBoard.boardPos
                 die1.roll()
                 die2.roll()
                 die3.roll()
                 print (player.__str__() + " rolled a " + str(die1.getNum()) + ", " + str(die2.getNum()) + ", and " + str(die3.getNum()))
                 player.gameBoard.moveUp(die1.getNum(), die2.getNum(), die3.getNum())
-                print (player.__str__() + " is on space " + str(player.gameBoard.boardPos +1))
+                if space != player.gameBoard.boardPos : 
+                    print (player.__str__() + " moved to space " + str(player.gameBoard.boardPos +1))
                 if player.hasWon() :
                     print (player.__str__() + " has won!")
                     self.ended = True
